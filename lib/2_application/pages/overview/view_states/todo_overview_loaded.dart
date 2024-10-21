@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/1_domain/entities/todo_collection.dart';
 
-class TodoOverviewLoaded extends StatelessWidget {
-  const TodoOverviewLoaded({
+class ToDoOverviewLoaded extends StatelessWidget {
+  const ToDoOverviewLoaded({
     super.key,
     required this.collections,
   });
