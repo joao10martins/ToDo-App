@@ -10,23 +10,23 @@ class ToDoOverviewCubit extends Cubit<ToDoOverviewState> {
   ToDoOverviewCubit({
     required this.loadToDoCollections,
     ToDoOverviewState? initialState,
-  }) : super(initialState ?? ToDoOverviewLoadingState());
+  }) : super(initialState ?? const ToDoOverviewLoadingState());
 
   final LoadToDoCollections loadToDoCollections;
 
   Future<void> readToDoCollections() async {
-    emit(ToDoOverviewLoadingState());
+    emit(const ToDoOverviewLoadingState());
     try {
       final collectionsFuture = loadToDoCollections.call(NoParams());
       final collections = await collectionsFuture;
 
       if(collections.isLeft) {
-        emit(ToDoOverviewErrorState());
+        emit(const ToDoOverviewErrorState());
       } else {
         emit(ToDoOverviewLoadedState(collections: collections.right));
       }
     } on Exception {
-      emit(ToDoOverviewErrorState());
+      emit(const ToDoOverviewErrorState());
     }
   }
 }

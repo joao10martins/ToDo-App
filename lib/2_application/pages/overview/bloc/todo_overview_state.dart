@@ -8,9 +8,13 @@ abstract class ToDoOverviewState extends Equatable {
   List<Object> get props => [];
 }
 
-class ToDoOverviewLoadingState extends ToDoOverviewState {}
+class ToDoOverviewLoadingState extends ToDoOverviewState {
+  const ToDoOverviewLoadingState();
+}
 
-class ToDoOverviewErrorState extends ToDoOverviewState {}
+class ToDoOverviewErrorState extends ToDoOverviewState {
+  const ToDoOverviewErrorState();
+}
 
 class ToDoOverviewLoadedState extends ToDoOverviewState {
   const ToDoOverviewLoadedState({required this.collections});
