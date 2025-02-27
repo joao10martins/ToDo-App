@@ -17,7 +17,7 @@ class ToDoRepositoryMock implements ToDoRepository {
 
   final toDoCollections = List<ToDoCollection>.generate(
     10,
-        (index) => ToDoCollection(
+    (index) => ToDoCollection(
       id: CollectionId.fromUniqueString(index.toString()),
       title: 'title $index',
       color: ToDoColor(colorIndex: index % ToDoColor.predefinedColors.length),
@@ -29,29 +29,32 @@ class ToDoRepositoryMock implements ToDoRepository {
     try {
       return Future.delayed(
         const Duration(milliseconds: 200),
-            () => Right(toDoCollections),
+        () => Right(toDoCollections),
       );
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       return Future.value(Left(ServerFailure(stackTrace: e.toString())));
     }
   }
 
   @override
-  Future<Either<Failure, ToDoEntry>> readToDoEntry(CollectionId collectionId, EntryId entryId) {
+  Future<Either<Failure, ToDoEntry>> readToDoEntry(
+      CollectionId collectionId, EntryId entryId) {
     try {
-      final selectedEntryItem = toDoEntries.firstWhere((element) => element.id == entryId);
+      final selectedEntryItem =
+          toDoEntries.firstWhere((element) => element.id == entryId);
 
       return Future.delayed(
         const Duration(milliseconds: 200),
-            () => Right(selectedEntryItem),
+        () => Right(selectedEntryItem),
       );
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       return Future.value(Left(ServerFailure(stackTrace: e.toString())));
     }
   }
 
   @override
-  Future<Either<Failure, List<EntryId>>> readToDoEntryIds(CollectionId collectionId) {
+  Future<Either<Failure, List<EntryId>>> readToDoEntryIds(
+      CollectionId collectionId) {
     try {
       final startIndex = int.parse(collectionId.value) * 10;
       final endIndex = startIndex + 10;
@@ -67,5 +70,20 @@ class ToDoRepositoryMock implements ToDoRepository {
     } on Exception catch (e) {
       return Future.value(Left(ServerFailure(stackTrace: e.toString())));
     }
+  }
+
+  @override
+  Future<Either<Failure, ToDoEntry>> updateTodoEntry(
+      {required CollectionId collectionId, required EntryId entryId}) {
+    final index = toDoEntries.indexWhere((element) => element.id == entryId);
+    final entryToUpdate = toDoEntries[index];
+    final updatedEntry = toDoEntries[index].copyWith(
+        isDone: !entryToUpdate.isDone, description: entryToUpdate.description);
+    toDoEntries[index] = updatedEntry;
+
+    return Future.delayed(
+      const Duration(milliseconds: 100),
+      () => Right(updatedEntry),
+    );
   }
 }
